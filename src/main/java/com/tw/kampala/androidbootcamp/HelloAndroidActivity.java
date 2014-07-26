@@ -1,9 +1,12 @@
 package com.tw.kampala.androidbootcamp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+import com.tw.kampala.androidbootcamp.services.SyncService;
 
 public class HelloAndroidActivity extends Activity {
 
@@ -17,6 +20,18 @@ public class HelloAndroidActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button syncButton = (Button) findViewById(R.id.sync_button);
+        syncButton.setText(R.string.sync_button);
+
+        syncButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HelloAndroidActivity.this, SyncService.class);
+                startService(intent);
+            }
+        });
+
     }
 
     @Override
