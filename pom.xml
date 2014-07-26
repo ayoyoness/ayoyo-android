@@ -15,6 +15,13 @@
 		<android.plugin.version>3.6.0</android.plugin.version>
 	</properties>
 
+    <repositories>
+        <repository>
+            <id>android-support</id>
+            <url>file:///Users/mnandri/android/android-sdk-macosx/extras/android/m2repository</url>
+        </repository>
+    </repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.google.android</groupId>
@@ -22,7 +29,33 @@
 			<version>${platform.version}</version>
 			<scope>provided</scope>
 		</dependency>
-	</dependencies>
+
+        <dependency>
+            <groupId>com.android.support</groupId>
+            <artifactId>support-v4</artifactId>
+            <version>19.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.roboguice</groupId>
+            <artifactId>roboguice</artifactId>
+            <version>2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.14.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.squareup.retrofit</groupId>
+            <artifactId>retrofit</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
+    </dependencies>
+
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<pluginManagement>
