@@ -3,11 +3,13 @@ package com.tw.kampala.androidbootcamp.services;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import com.google.common.io.ByteStreams;
 import com.tw.kampala.androidbootcamp.R;
 import com.tw.kampala.androidbootcamp.models.Item;
 import com.tw.kampala.androidbootcamp.models.ItemIds;
 import com.tw.kampala.androidbootcamp.services.api.ItemAPI;
 import retrofit.RestAdapter;
+import retrofit.client.Response;
 import roboguice.service.RoboIntentService;
 
 import javax.inject.Inject;
@@ -41,14 +43,26 @@ public class SyncService extends RoboIntentService {
         builder.setProgress(itemIds.getIds().size(), 0, false);
         notificationManager.notify(NOTIFICATION_ID, builder.build());
 
-        for (String itemId: itemIds.getIds()){
-            Item item = itemAPI.getItem(itemId);
-            builder.setProgress(itemIds.getIds().size(), ++counter, false);
+        try {
+            for (String itemId : itemIds.getIds()) {
+                Item item = itemAPI.getItem(itemId);
+                builder.setProgress(itemIds.getIds().size(), ++counter, false);
+                notificationManager.notify(NOTIFICATION_ID, builder.build());
+
+                Response avatar = itemAPI.getAvatar(itemId);
+                byte[] response = ByteStreams.toByteArray(avatar.getBody().in());
+            }
+
+            builder.setContentText("").setContentTitle("Sync Complete");
+            notificationManager.notify(NOTIFICATION_ID, builder.build());
+        }
+        catch (Exception e){
+            builder.setContentText("Sync failed!");
             notificationManager.notify(NOTIFICATION_ID, builder.build());
         }
 
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
         stopSelf();
+
     }
 
 }
