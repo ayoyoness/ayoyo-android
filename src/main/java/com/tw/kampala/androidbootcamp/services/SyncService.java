@@ -8,7 +8,6 @@ import com.tw.kampala.androidbootcamp.R;
 import com.tw.kampala.androidbootcamp.models.Item;
 import com.tw.kampala.androidbootcamp.models.ItemIds;
 import com.tw.kampala.androidbootcamp.services.api.ItemAPI;
-import retrofit.RestAdapter;
 import retrofit.client.Response;
 import roboguice.service.RoboIntentService;
 
@@ -17,8 +16,12 @@ import javax.inject.Inject;
 public class SyncService extends RoboIntentService {
 
     public static final int NOTIFICATION_ID = 1001;
+
     @Inject
     NotificationManager notificationManager;
+
+    @Inject
+    ItemAPI itemAPI;
 
     public SyncService() {
         super("AyoyoService");
@@ -32,11 +35,6 @@ public class SyncService extends RoboIntentService {
                                                 .setContentTitle("Syncing...")
                                                 .setProgress(0, 0, true);
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("https://sync-server.herokuapp.com")
-                .build();
-
-        ItemAPI itemAPI = restAdapter.create(ItemAPI.class);
         int counter = 0;
 
         ItemIds itemIds = itemAPI.getItemIds();
